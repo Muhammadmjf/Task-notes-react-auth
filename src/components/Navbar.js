@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import Usercontext from "../context/Usercontext";
+import { deleteToken } from "../api/storage";
 
 const Navbar = () => {
+  const [user, setUser] = useContext(Usercontext);
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,21 +37,31 @@ const Navbar = () => {
               >
                 Users
               </NavLink>
-
-              <>
-                <NavLink
-                  to="/login"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              {user == true ? (
+                <button
+                  onClick={() => {
+                    deleteToken();
+                    setUser(false);
+                  }}
                 >
-                  Login
-                </NavLink>
-                <NavLink
-                  to="/register"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Register
-                </NavLink>
-              </>
+                  Logout
+                </button>
+              ) : (
+                <>
+                  <NavLink
+                    to="/login"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Login
+                  </NavLink>
+                  <NavLink
+                    to="/register"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Register
+                  </NavLink>
+                </>
+              )}
             </div>
           </div>
         </div>
